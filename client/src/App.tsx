@@ -5,16 +5,14 @@ import { Routes, Route } from "react-router-dom";
 import Orders from "./Pages/Orders/Orders";
 import Promotion from "./Pages/Promotion/Promotion";
 import Notifications from "./Pages/Notifications/Notifications";
-import Header from "./components/Header/Header";
 import DownBar from "./components/DownBar/DownBar";
 import Menu from "./components/Menu/Menu";
 
 const App = () => {
   return (
     <>
-      <Header />
       <Menu />
-      <div className="max-w-[1440px] mx-auto px-4 md:px-10 mt-[15rem] z-50">
+      <div className="max-w-[1440px] mx-auto z-50 h-full">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/orders" element={<Orders />} />

@@ -26,7 +26,7 @@ const ServicesCard: React.FC<ServicesCardProps> = ({ icon, title }) => {
 
 const Services = () => {
   return (
-    <div className="mt-5 flex flex-col space-y-4 mb-[10rem]">
+    <div className="flex flex-col space-y-4 mb-[10rem] mt-[16rem]">
       <h1 className="text-[22px] font-semibold text-black">Services</h1>
       <div className="services grid grid-cols-3 gap-5">
         <ServicesCard icon={cleaner} title={"Cleaning"} />
