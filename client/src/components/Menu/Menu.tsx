@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import cross from "../../assets/icons/cross.png";
+import { Link } from "react-router";
 import './Menu.css';
 
 import user from "../../assets/icons/user.png";
@@ -11,6 +12,7 @@ import share from "../../assets/icons/share.png";
 import star from "../../assets/icons/star.png";
 import logout from "../../assets/icons/log-out.png";
 import { useAppContext } from "../../Context/StoreContext";
+import Logout from "../Logout/Logout";
 
 const Menu = () => {
   const {showMenu, setShowMenu} = useAppContext()
@@ -86,11 +88,12 @@ const Menu = () => {
             <div className="flex items-center justify-between bg-white py-2 px-4 h-[60px]">
               <div className="flex items-center space-x-4">
                 <img src={logout} alt="logout icon" />
-                <span className="text-[15px] text-gray-900">Logout</span>
+                <Link to={'/logout'} className="text-[15px] text-gray-900">Logout</Link>
               </div>
               <img src={next} alt="next icon" />
             </div>
           </div>
+          <Logout />
         </div>
       }
     </>
