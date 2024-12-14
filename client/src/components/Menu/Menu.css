@@ -1,0 +1,30 @@
+.menu {
+    opacity: 0;
+    animation: slideIn 0.5s ease-out forwards, fadeIn 0.5s ease-out forwards; /* Apply both animations */
+}
+
+/* Slide-in effect */
+@keyframes slideIn {
+    0% {
+      transform: translateX(100%); /* Start off-screen */
+    }
+    100% {
+      transform: translateX(0); /* Move to on-screen position */
+    }
+  }
+
+  /* Fade-in effect */
+@keyframes fadeIn {
+    0% {
+      opacity: 0; /* Start with low opacity */
+    }
+    100% {
+      opacity: 1; /* End with full opacity */
+    }
+  }
+  
+  /* Close state - when the menu is hidden */
+  .menu.closed {
+    transform: translateX(100%); /* Move off-screen */
+    opacity: 0; /* Fade out */
+  }

@@ -8,7 +8,6 @@ import { useLocation } from 'react-router';
 
 const DownBar = () => {
   const location: any = useLocation();
-  console.log(location.pathname)
   return (
     <nav className='fixed bg-white bottom-0 h-[73px] w-full md:hidden px-6 py-3'>
       <ul className='flex items-center justify-between space-x-2'>

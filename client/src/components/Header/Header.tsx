@@ -3,6 +3,7 @@ import logo from "../../assets/icons/skillspot-icon.png";
 import menu from "../../assets/icons/menu.png";
 import { Link } from "react-router";
 import { useLocation } from "react-router";
+import { useAppContext } from "../../Context/StoreContext";
 
 import { MdOutlineHome } from "react-icons/md";
 import { LuNotebookText } from "react-icons/lu";
@@ -10,8 +11,11 @@ import { GoGift } from "react-icons/go";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import searchIcon from "../../assets/icons/search.png";
 
+
 const Header = () => {
     const location: any = useLocation();
+    const {setShowMenu} = useAppContext()
+
   return (
     <>
       <header className="fixed top-0 left-0 bg-[#CCFD04] h-[198px] w-full px-4 md:px-10 py-2 md:py-4 z-40">
@@ -59,7 +63,7 @@ const Header = () => {
                 <span>Notifications</span>
               </Link>
             </ul>
-            <div className="cursor-pointer">
+            <div onClick={() => setShowMenu((prev: boolean) => (!prev))} className="cursor-pointer">
               <img src={menu} alt="menu icon" className="cursor-pointer" />
             </div>
           </div>
