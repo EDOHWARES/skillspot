@@ -15,7 +15,7 @@ const App = () => {
       <div className="max-w-[1440px] mx-auto z-50 h-full">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route path="/orders/*" element={<Orders />} />
           <Route path="/promotion" element={<Promotion />} />
           <Route path="/notifications" element={<Notifications />} />
         </Routes>

@@ -1,4 +1,3 @@
-import React from "react";
 import no_order from '../../../assets/images/no-orders.png';
 
 export const Pending = () => {
