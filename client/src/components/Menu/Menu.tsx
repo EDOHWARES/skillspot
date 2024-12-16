@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import cross from "../../assets/icons/cross.png";
 import { Link } from "react-router";
 import './Menu.css';
@@ -15,7 +15,7 @@ import { useAppContext } from "../../Context/StoreContext";
 import Logout from "../Logout/Logout";
 
 const Menu = () => {
-  const {showMenu, setShowMenu} = useAppContext()
+  const {showMenu, setShowMenu, showLogoutModule, setShowLogoutModule} = useAppContext();
   return (
     <>
       { showMenu &&
@@ -33,14 +33,14 @@ const Menu = () => {
           </div>
 
           <div className="mb-3">
-            <div className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px]">
+            <div className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={user} alt="user icon" />
                 <span className="text-[15px] text-gray-900">My Profile</span>
               </div>
               <img src={next} alt="next icon" />
             </div>
-            <div className="flex items-center justify-between bg-white py-2 px-4 h-[60px]">
+            <div className="flex items-center justify-between bg-white py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={contact} alt="contact icon" />
                 <span className="text-[15px] text-gray-900">Contact us</span>
@@ -50,16 +50,16 @@ const Menu = () => {
           </div>
 
           <div className="mb-3">
-            <div className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px]">
+            <div className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={worker} alt="worker icon" />
-                <span className="text-[15px] text-gray-900">
-                  Become a worker
-                </span>
+                <Link to={'/prompt-registration'} className="text-[15px] text-gray-900">
+                  Register as a service provider
+                </Link>
               </div>
               <img src={next} alt="next icon" />
             </div>
-            <div className="flex items-center justify-between bg-white py-2 px-4 h-[60px]">
+            <div className="flex items-center justify-between bg-white py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={brick} alt="brick icon" />
                 <span className="text-[15px] text-gray-900">
@@ -71,29 +71,30 @@ const Menu = () => {
           </div>
 
           <div className="mb-3">
-            <div className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px]">
+            <div className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={share} alt="share icon" />
                 <span className="text-[15px] text-gray-900">Share</span>
               </div>
               <img src={next} alt="next icon" />
             </div>
-            <div className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px]">
+            <div className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={star} alt="star icon" />
                 <span className="text-[15px] text-gray-900">Rate</span>
               </div>
               <img src={next} alt="next icon" />
             </div>
-            <div className="flex items-center justify-between bg-white py-2 px-4 h-[60px]">
+            <div onClick={() => setShowLogoutModule(true)}  className="flex items-center justify-between bg-white py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={logout} alt="logout icon" />
-                <Link to={'/logout'} className="text-[15px] text-gray-900">Logout</Link>
+                <span className="text-[15px] text-gray-900">Logout</span>
               </div>
               <img src={next} alt="next icon" />
             </div>
           </div>
-          <Logout />
+          <Logout
+          />
         </div>
       }
     </>
