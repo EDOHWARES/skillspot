@@ -1,12 +1,13 @@
 import { GrFormPrevious } from "react-icons/gr";
 import { useState } from "react";
 import { nigeriaStatesLGA } from "../../data/nigeriaStatesLGA";
+import Select from "react-select";
+import { allSkills } from "../../data/skills";
 
 const RegisterServiceProvider = () => {
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedLGA, setSelectedLGA] = useState<string>("");
-
-  const [services, setServices] = useState([{ name: "", description: "" }]);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
   // Handle State Selection
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -18,16 +19,6 @@ const RegisterServiceProvider = () => {
     setSelectedLGA(e.target.value);
   };
 
-  const addService = () => {
-    setServices([...services, { name: "", description: "" }]);
-  };
-
-  const handleServiceChange = (index: number, field: string, value: string) => {
-    const updatedServices = [...services];
-    updatedServices[index][field] = value;
-    setServices(updatedServices);
-  };
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -37,18 +28,13 @@ const RegisterServiceProvider = () => {
       email: formData.get("email"),
       phone: formData.get("phone"),
       password: formData.get("password"),
-      services,
       location: {
         address: formData.get("location[address]"),
         city: formData.get("location[city]"),
         state: formData.get("location[state]"),
       },
       bio: formData.get("bio"),
-      skills: formData
-        .get("skills")
-        ?.toString()
-        .split(",")
-        .map((skill) => skill.trim()),
+      skills: selectedSkills.map((skill) => skill.trim()),
     };
 
     console.log("Form Data:", data);
@@ -125,44 +111,59 @@ const RegisterServiceProvider = () => {
           />
         </div>
 
-        {/* Services */}
+        {/* Services Selection */}
         <div className="space-y-2">
           <label className="block font-normal text-gray-600 text-[14px]">
-            Services
+            Services/Skills to offer
           </label>
-          {services.map((service, index) => (
-            <div key={index} className="flex space-x-4 mb-2">
-              <input
-                type="text"
-                name={`services[${index}][name]`}
-                placeholder="Service Name"
-                required
-                className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
-                value={service.name}
-                onChange={(e) =>
-                  handleServiceChange(index, "name", e.target.value)
-                }
-              />
-              <input
-                type="text"
-                name={`services[${index}][description]`}
-                placeholder="Service Description"
-                required
-                className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
-                value={service.description}
-                onChange={(e) =>
-                  handleServiceChange(index, "description", e.target.value)
-                }
-              />
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={addService}
-            className="mt-2 text-purple-500 font-medium"
-          >
-            + Add Another Service
-          </button>
+          <Select
+            isMulti
+            name="skills"
+            options={allSkills.map((skill) => ({ value: skill, label: skill }))}
+            className="w-full"
+            classNamePrefix="select"
+            onChange={(selectedOptions) =>
+              setSelectedSkills(selectedOptions.map((option) => option.value))
+            }
+            styles={{
+              control: (provided, state) => ({
+                ...provided,
+                backgroundColor: "transparent",
+                borderColor: state.isFocused ? "#CCFD04" : "#CCCCCC",
+                borderWidth: "1px",
+                borderRadius: "6px",
+                paddingLeft: "8px",
+                minHeight: '50px',
+                boxShadow: state.isFocused ? "0 0 0 2px #CCFD04" : "none",
+                "&:hover": { borderColor: "#CCFD04" },
+              }),
+              placeholder: (provided) => ({
+                ...provided,
+                color: "#33353C",
+                fontSize: "14px",
+              }),
+              input: (provided) => ({
+                ...provided,
+                color: "#33353C",
+                fontSize: "14px",
+              }),
+              multiValue: (provided) => ({
+                ...provided,
+                backgroundColor: "#F0F0F0",
+                borderRadius: "4px",
+              }),
+              multiValueLabel: (provided) => ({
+                ...provided,
+                color: "#33353C",
+                fontSize: "14px",
+              }),
+              multiValueRemove: (provided) => ({
+                ...provided,
+                color: "#33353C",
+                "&:hover": { backgroundColor: "#CCFD04", color: "white" },
+              }),
+            }}
+          />
         </div>
 
         {/* Location */}
@@ -222,20 +223,6 @@ const RegisterServiceProvider = () => {
             required
             className="w-full bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
           ></textarea>
-        </div>
-
-        {/* Skills */}
-        <div className="space-y-2">
-          <label className="block font-normal text-gray-600 text-[14px]">
-            Skills
-          </label>
-          <input
-            type="text"
-            name="skills"
-            placeholder="E.g., Plumbing, Electrical Repairs"
-            required
-            className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
-          />
         </div>
 
         {/* Submit Button */}
