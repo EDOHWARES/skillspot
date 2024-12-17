@@ -77,7 +77,7 @@ const PromptRegistration = () => {
             body="Enjoy a hassle-free payment process, with secure and direct earnings deposited into your account."
           />
         </div>
-        <Link to={'/registerServiceProvider'} className="bg-[#282828] cursor-pointer w-[300px] text-gray-100 flex items-center justify-center h-[53.42px] rounded-[6.16px] font-medium mx-auto hover:scale-105 duration-500">Register Now</Link>
+        <Link to={'/registerServiceProvider'} className="bg-[#282828] cursor-pointer w-full text-gray-100 flex items-center justify-center h-[53.42px] rounded-[6.16px] font-medium mx-auto hover:scale-105 duration-500">Register Now</Link>
         <div className="w-fit mx-auto text-gray-500 text-[16.44px]">
           <Link to="">Need Help?</Link>
         </div>

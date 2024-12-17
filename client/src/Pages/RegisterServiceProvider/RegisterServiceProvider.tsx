@@ -1,8 +1,22 @@
 import { GrFormPrevious } from "react-icons/gr";
 import { useState } from "react";
+import { nigeriaStatesLGA } from "../../data/nigeriaStatesLGA";
 
 const RegisterServiceProvider = () => {
+  const [selectedState, setSelectedState] = useState<string>("");
+  const [selectedLGA, setSelectedLGA] = useState<string>("");
+
   const [services, setServices] = useState([{ name: "", description: "" }]);
+
+  // Handle State Selection
+  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedState(e.target.value);
+    setSelectedLGA(""); // Reset LGA when the state changes
+  };
+
+  const handleLGAChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLGA(e.target.value);
+  };
 
   const addService = () => {
     setServices([...services, { name: "", description: "" }]);
@@ -52,21 +66,29 @@ const RegisterServiceProvider = () => {
         </h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-[5rem] space-y-4 px-4 md:px-10 md:w-1/2 py-4 mx-auto ">
+      <form
+        onSubmit={handleSubmit}
+        className="mt-[5rem] space-y-4 px-4 md:px-10 md:w-2/3 py-4 mx-auto "
+      >
         {/* Name */}
         <div className="space-y-2">
-          <label className="block font-normal text-gray-600 text-[14px]">Full Name</label>
+          <label className="block font-normal text-gray-600 text-[14px]">
+            Full Name
+          </label>
           <input
             type="text"
             name="name"
             placeholder="Edoh Emmanuel"
+            required
             className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
           />
         </div>
 
         {/* Email */}
         <div className="space-y-2">
-          <label className="block font-normal text-gray-600 text-[14px]">Email</label>
+          <label className="block font-normal text-gray-600 text-[14px]">
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -77,35 +99,44 @@ const RegisterServiceProvider = () => {
 
         {/* Phone */}
         <div className="space-y-2">
-          <label className="block font-normal text-gray-600 text-[14px]">Phone</label>
+          <label className="block font-normal text-gray-600 text-[14px]">
+            Phone
+          </label>
           <input
             type="tel"
             name="phone"
             placeholder="08123456789"
+            required
             className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
           />
         </div>
 
         {/* Password */}
         <div className="space-y-2">
-          <label className="block font-normal text-gray-600 text-[14px]">Password</label>
+          <label className="block font-normal text-gray-600 text-[14px]">
+            Password
+          </label>
           <input
             type="password"
             name="password"
             placeholder="********"
+            required
             className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
           />
         </div>
 
         {/* Services */}
         <div className="space-y-2">
-          <label className="block font-normal text-gray-600 text-[14px]">Services</label>
+          <label className="block font-normal text-gray-600 text-[14px]">
+            Services
+          </label>
           {services.map((service, index) => (
             <div key={index} className="flex space-x-4 mb-2">
               <input
                 type="text"
                 name={`services[${index}][name]`}
                 placeholder="Service Name"
+                required
                 className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
                 value={service.name}
                 onChange={(e) =>
@@ -116,6 +147,7 @@ const RegisterServiceProvider = () => {
                 type="text"
                 name={`services[${index}][description]`}
                 placeholder="Service Description"
+                required
                 className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
                 value={service.description}
                 onChange={(e) =>
@@ -135,47 +167,73 @@ const RegisterServiceProvider = () => {
 
         {/* Location */}
         <div className="space-y-2">
-          <label className="block font-normal text-gray-600 text-[14px]">Address</label>
+          <label className="block font-normal text-gray-600 text-[14px]">
+            Address
+          </label>
           <input
             type="text"
             name="location[address]"
             placeholder="123 Main Street"
+            required
             className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
-            />
+          />
         </div>
+
         <div className="flex space-x-4">
-          <input
-            type="text"
-            name="location[city]"
-            placeholder="City"
+          <select
+            id="states"
+            value={selectedState}
+            onChange={handleStateChange}
             className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
-            />
-          <input
-            type="text"
-            name="location[state]"
-            placeholder="State"
+          >
+            <option value="">-- Select State --</option>
+            {Object.keys(nigeriaStatesLGA).map((state) => (
+              <option key={state} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+
+          <select
+            id="lgas"
+            value={selectedLGA}
+            onChange={handleLGAChange}
             className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
-            />
+          >
+            <option value="">-- Select LGA --</option>
+            {selectedState &&
+              nigeriaStatesLGA[selectedState].map((lga) => (
+                <option key={lga} value={lga}>
+                  {lga}
+                </option>
+              ))}
+          </select>
         </div>
 
         {/* Bio */}
         <div className="space-y-2">
-          <label className="block font-normal text-gray-600 text-[14px]">Bio</label>
+          <label className="block font-normal text-gray-600 text-[14px]">
+            Bio
+          </label>
           <textarea
             name="bio"
             rows={3}
             placeholder="Brief description about yourself"
+            required
             className="w-full bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
-            ></textarea>
+          ></textarea>
         </div>
 
         {/* Skills */}
         <div className="space-y-2">
-          <label className="block font-normal text-gray-600 text-[14px]">Skills</label>
+          <label className="block font-normal text-gray-600 text-[14px]">
+            Skills
+          </label>
           <input
             type="text"
             name="skills"
             placeholder="E.g., Plumbing, Electrical Repairs"
+            required
             className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
           />
         </div>

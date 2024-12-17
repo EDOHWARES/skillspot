@@ -51,9 +51,9 @@ const serviceProviderSchema = new mongoose.Schema({
       },
       bio: {
         type: String,
-        trim: true, // Brief description about the provider
+        trim: true, 
       },
-      skills: [String], // E.g., ['Carpentry', 'Plumbing', 'Electrical repairs']
+      skills: [String], 
       createdAt: {
         type: Date,
         default: Date.now,
