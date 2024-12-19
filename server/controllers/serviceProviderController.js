@@ -14,12 +14,11 @@ const registerServiceProvider = async (req, res) => {
     name,
     email,
     phone,
-    password,
-    profilePicture,
-    services,
+    servicesAndSkills,
+    yearsOfExperience,
     location,
     bio,
-    skills,
+    password,
   } = req.body;
 
   try {
@@ -37,12 +36,11 @@ const registerServiceProvider = async (req, res) => {
       name,
       email,
       phone,
-      password: hashedPassword,
-      profilePicture,
-      services,
+      servicesAndSkills,
+      yearsOfExperience,
       location,
       bio,
-      skills,
+      password: hashedPassword,
     });
 
     // Save the provider to the database

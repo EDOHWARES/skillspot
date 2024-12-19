@@ -45,8 +45,8 @@ const RegisterServiceProvider = () => {
   return (
     <>
       <div className="text-black pb-32">
-      <SubmissionSuccessful />
-        <div className="bg-white py-4 px-2 md:px-10 flex items-center justify-between absolute top-0 left-0 w-full">
+        {/* { <SubmissionSuccessful />} */}
+        <div className="bg-white py-4 px-2 md:px-10 flex items-center justify-between fixed z-50 top-0 left-0 w-full">
           <span className="absolute left-2 md:left-10 cursor-pointer">
             <GrFormPrevious className="text-2xl" />
           </span>
@@ -76,12 +76,13 @@ const RegisterServiceProvider = () => {
           {/* Email */}
           <div className="space-y-2">
             <label className="block font-normal text-gray-600 text-[14px]">
-              Email
+              Email Address
             </label>
             <input
               type="email"
               name="email"
               placeholder="edohemmanuel@gmail.com"
+              required={false}
               className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
             />
           </div>
@@ -89,26 +90,12 @@ const RegisterServiceProvider = () => {
           {/* Phone */}
           <div className="space-y-2">
             <label className="block font-normal text-gray-600 text-[14px]">
-              Phone
+              Phone Number
             </label>
             <input
               type="tel"
               name="phone"
               placeholder="08123456789"
-              required
-              className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
-            />
-          </div>
-
-          {/* Password */}
-          <div className="space-y-2">
-            <label className="block font-normal text-gray-600 text-[14px]">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="********"
               required
               className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
             />
@@ -172,49 +159,63 @@ const RegisterServiceProvider = () => {
             />
           </div>
 
-          {/* Location */}
           <div className="space-y-2">
             <label className="block font-normal text-gray-600 text-[14px]">
-              Address
+              Years of Experience
             </label>
             <input
-              type="text"
-              name="location[address]"
-              placeholder="123 Main Street"
+              type="number"
+              name="yearsOfExperience"
+              placeholder="4 Years"
+              max={50}
+              maxLength={2}
               required
               className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
             />
           </div>
 
-          <div className="flex space-x-4">
-            <select
-              id="states"
-              value={selectedState}
-              onChange={handleStateChange}
-              className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
-            >
-              <option value="">-- Select State --</option>
-              {Object.keys(nigeriaStatesLGA).map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
-
-            <select
-              id="lgas"
-              value={selectedLGA}
-              onChange={handleLGAChange}
-              className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
-            >
-              <option value="">-- Select LGA --</option>
-              {selectedState &&
-                nigeriaStatesLGA[selectedState].map((lga) => (
-                  <option key={lga} value={lga}>
-                    {lga}
+          {/* Location */}
+          <div className="space-y-2">
+            <label className="block font-normal text-gray-600 text-[14px]">
+              Location
+            </label>
+            <div className="flex space-x-4">
+              <select
+                id="states"
+                value={selectedState}
+                onChange={handleStateChange}
+                className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
+              >
+                <option value="">-- Select State --</option>
+                {Object.keys(nigeriaStatesLGA).map((state) => (
+                  <option key={state} value={state}>
+                    {state}
                   </option>
                 ))}
-            </select>
+              </select>
+
+              <select
+                id="lgas"
+                value={selectedLGA}
+                onChange={handleLGAChange}
+                className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
+              >
+                <option value="">-- Select LGA --</option>
+                {selectedState &&
+                  nigeriaStatesLGA[selectedState].map((lga) => (
+                    <option key={lga} value={lga}>
+                      {lga}
+                    </option>
+                  ))}
+              </select>
+              <input
+                type="text"
+                name="location[address]"
+                placeholder="123 Main Street"
+                required
+                className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
+              />
+            </div>
           </div>
 
           {/* Bio */}
@@ -229,6 +230,20 @@ const RegisterServiceProvider = () => {
               required
               className="w-full bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
             ></textarea>
+          </div>
+
+          {/* Password */}
+          <div className="space-y-2">
+            <label className="block font-normal text-gray-600 text-[14px]">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              placeholder="********"
+              required
+              className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
+            />
           </div>
 
           {/* Submit Button */}

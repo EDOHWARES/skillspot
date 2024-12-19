@@ -1,69 +1,58 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const serviceProviderSchema = new mongoose.Schema({
+const serviceProviderSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      email: {
-        type: String,
-        required: true,
-        default: null,
-        unique: true,
-        trim: true,
-      },
-      phone: {
-        type: String,
-        required: true,
-      },
-      password: {
-        type: String,
-        required: true,
-      },
-      profilePicture: {
-        type: String, // URL of the profile picture
-      },
-      services: [
-        {
-          name: { type: String, required: true }, // E.g., Plumbing, Graphic Design
-          description: { type: String, required: true },
-          priceRange: {
-            min: { type: Number, required: true },
-            max: { type: Number, required: true },
-          },
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: false,
+      default: null,
+      unique: true,
+      sparse: true,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    servicesAndSkills: {
+      type: [String],
+      required: true,
+      validate: {
+        validator: function (val) {
+          return val.length > 0; // Ensure the array is not empty
         },
-      ],
-      location: {
-        address: { type: String, required: true },
-        city: { type: String, required: true },
-        state: { type: String, required: true },
-        latitude: { type: Number }, // For map integration
-        longitude: { type: Number },
+        message: "At least one service or skill is required.",
       },
-      ratings: {
-        totalRating: { type: Number, default: 0 },
-        numberOfReviews: { type: Number, default: 0 },
-      },
-      availability: {
-        type: Boolean,
-        default: true,
-      },
-      bio: {
-        type: String,
-        trim: true, 
-      },
-      skills: [String], 
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
-      updatedAt: {
-        type: Date,
-        default: Date.now,
-      },
-});
+    },
+    yearsOfExperience: {
+      type: Number,
+      required: true,
+    },
+    location: {
+      street: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+    },
+    bio: {
+      type: String,
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-const serviceProviderModel = mongoose.model('ServiceProvider', serviceProviderSchema);
+const serviceProviderModel = mongoose.model(
+  "ServiceProvider",
+  serviceProviderSchema
+);
 
 module.exports = serviceProviderModel;
