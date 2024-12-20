@@ -43,7 +43,7 @@ const Menu = () => {
             <div className="flex items-center justify-between bg-white py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={contact} alt="contact icon" />
-                <span className="text-[15px] text-gray-900">Contact us</span>
+                <Link to={'/contactUs'} className="text-[15px] text-gray-900">Contact us</Link>
               </div>
               <img src={next} alt="next icon" />
             </div>
