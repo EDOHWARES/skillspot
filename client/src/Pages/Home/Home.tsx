@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import PromptRegistration from "../RegisterServiceProvider/Modules/PromptRegistration/PromptRegistration";
 import RegisterServiceProvider from "../RegisterServiceProvider/RegisterServiceProvider";
 import ContactUs from "../ContactUs/ContactUs";
+import Profile from "../Profile/Profile";
 
 const HomeHome = () => {
   return (
@@ -24,6 +25,7 @@ const Home = () => {
         <Route path="/prompt-registration" element={<PromptRegistration />} />
         <Route path="/registerServiceProvider" element={<RegisterServiceProvider />} />
         <Route path="/contactUs" element={<ContactUs />} />
+        <Route path="/profile/*" element={<Profile />} />
       </Routes>
     </>
   );

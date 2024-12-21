@@ -61,6 +61,60 @@ const registerServiceProvider = async (req, res) => {
   }
 };
 
+
+// Controller to update a service provider profile
+const updateServiceProviderProfile = async (req, res) => {
+  try {
+    const {userId} = req.params;
+    const {name, email, contact, gender} = req.body
+    let profileImg = req.file ? req.file.path : undefined;
+
+    // Validate input
+    if (!name && !email && !contact && !gender && !profileImg) {
+      return res.status(400).json({
+        success: false,
+        message: 'No data provided to update.'
+      })
+    }
+
+    // Find user
+    const user = await ServiceProvider.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found.'
+      })
+    }
+
+    // Update fields
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (contact) user.contact = contact;
+    if (gender) user.gender = gender;
+    if (profileImg) user.profileImage = profileImg;
+
+    // Save updated user
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully.',
+      user,
+    });
+
+  } catch (error) {
+    console.error('Error updating profile: ', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    })
+  }
+};
+
+
 module.exports = {
     registerServiceProvider,
+    updateServiceProviderProfile,
 }
+

@@ -11,7 +11,8 @@ import copy_icon from "../../assets/icons/copy_icon.png";
 import contact_whatsapp_icon from "../../assets/icons/contact_whatsapp_icon.png";
 import contact_call_icon from "../../assets/icons/contact_call_icon.png";
 import sendEmail_icon from "../../assets/icons/sendEmail_icon.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAppContext } from "../../Context/StoreContext";
 
 interface ContactUsModalPropTypes {
   // Icon and text for the first action (e.g., Copy)
@@ -132,6 +133,12 @@ const ContactUsModal: React.FC<ContactUsModalPropTypes> = ({
 const ContactUs = () => {
   const [phone, setPhone] = useState(false);
   const [email, setEmail] = useState(false);
+
+  const { setShowMenu } = useAppContext();
+
+  useEffect(() => {
+    setShowMenu(false);
+  }, []);
 
   return (
     <div className="w-full robotoFlex flex h-screen text-center flex-col items-center gap-[5rem] py-4 px-4 md:px-10">

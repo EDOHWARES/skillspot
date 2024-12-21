@@ -46,6 +46,15 @@ const serviceProviderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    profileImage: {
+      type: String,
+      default: "https://via.placeholder.com/150", // Default profile image URL
+    },
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Other"],
+      default: "Other",
+    },
   },
   { timestamps: true }
 );
