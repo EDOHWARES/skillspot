@@ -10,6 +10,9 @@ import Menu from "./components/Menu/Menu";
 import Logout from "./Pages/Logout/Logout";
 import Welcome from "./Pages/Welcome/Welcome";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const App = () => {
   const [showOnBoarding, setShowOnBoarding] = useState(true);
 
@@ -21,14 +24,16 @@ const App = () => {
     }
   }, []);
 
-  // Handle onBoarded 
+  // Handle onBoarded
   const handleBoarded = () => {
     setShowOnBoarding(false); // Hide the greeting
     localStorage.setItem("hasBeenOnBoarded", "true"); // Set the flag in localStorage
   };
 
   return (
-    <>
+    <section>
+      <ToastContainer />
+
       {showOnBoarding ? (
         <Welcome handleBoarded={handleBoarded} />
       ) : (
@@ -46,7 +51,7 @@ const App = () => {
           <DownBar />
         </section>
       )}
-    </>
+    </section>
   );
 };
 

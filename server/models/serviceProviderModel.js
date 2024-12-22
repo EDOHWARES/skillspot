@@ -35,7 +35,7 @@ const serviceProviderSchema = new mongoose.Schema(
     },
     location: {
       street: { type: String, required: true },
-      city: { type: String, required: true },
+      lga: { type: String, required: true },
       state: { type: String, required: true },
     },
     bio: {

@@ -4,8 +4,12 @@ import { nigeriaStatesLGA } from "../../data/nigeriaStatesLGA";
 import Select from "react-select";
 import { allSkills } from "../../data/skills";
 import SubmissionSuccessful from "./Modules/SubmissionSucessful/SubmissionSuccessful";
+import axios from "axios";
 
 const RegisterServiceProvider = () => {
+  const API = import.meta.env.VITE_API_URL;
+  const [loading, setLoading] = useState(false);
+  const [showSubmissionModal, setShowSubmissionModal] = useState(false);
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedLGA, setSelectedLGA] = useState<string>("");
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
@@ -20,8 +24,15 @@ const RegisterServiceProvider = () => {
     setSelectedLGA(e.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  // Hide Submission Modal function
+  const hideModal = () => {
+    setShowSubmissionModal(false);
+  }
+
+  // Register service provider
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     const formData = new FormData(event.currentTarget);
 
     const data = {
@@ -29,17 +40,28 @@ const RegisterServiceProvider = () => {
       email: formData.get("email"),
       phone: formData.get("phone"),
       password: formData.get("password"),
+      yearsOfExperience: formData.get("yearsOfExperience"),
       location: {
-        address: formData.get("location[address]"),
-        city: formData.get("location[city]"),
-        state: formData.get("location[state]"),
+        street: formData.get("location[address]"),
+        lga: selectedLGA,
+        state: selectedState,
       },
       bio: formData.get("bio"),
-      skills: selectedSkills.map((skill) => skill.trim()),
+      servicesAndSkills: selectedSkills.map((skill) => skill.trim()),
     };
 
-    console.log("Form Data:", data);
-    // Submit data to the server here
+
+    try {
+      const response = await axios.post(`${API}/api/serviceProvider/register`, data);
+      console.log("Registration successful:", response.data);
+      setLoading(false);
+      setShowSubmissionModal(true); 
+    } catch (error: any) {
+      console.error("Registration failed:", error.response?.data || error.message);
+      setLoading(false);
+      alert(error.response?.data?.message || "An error occurred during registration.");
+    }
+
   };
 
   return (
@@ -159,6 +181,7 @@ const RegisterServiceProvider = () => {
             />
           </div>
 
+          {/* Years of Experience */}
           <div className="space-y-2">
             <label className="block font-normal text-gray-600 text-[14px]">
               Years of Experience
@@ -251,9 +274,10 @@ const RegisterServiceProvider = () => {
             type="submit"
             className="w-full h-[52px] bg-[#282828] text-gray-100 py-2 px-4 text-[16px] rounded-[6px] font-medium hover:scale-105 duration-500 focus:outline-none focus:ring-2 focus:ring-purple-700 flex items-center justify-center"
           >
-            Register
+            {loading ? 'Loading' : 'Register'}
           </button>
         </form>
+        {showSubmissionModal && <SubmissionSuccessful hideModal={hideModal} />}
       </div>
     </>
   );

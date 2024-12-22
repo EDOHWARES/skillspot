@@ -61,60 +61,213 @@ const registerServiceProvider = async (req, res) => {
   }
 };
 
-
-// Controller to update a service provider profile
-const updateServiceProviderProfile = async (req, res) => {
+// Controller to update service provider name
+const updateServiceProviderName = async (req, res) => {
   try {
-    const {userId} = req.params;
-    const {name, email, contact, gender} = req.body
-    let profileImg = req.file ? req.file.path : undefined;
+    const { userId } = req.params;
+    const { name } = req.body;
 
-    // Validate input
-    if (!name && !email && !contact && !gender && !profileImg) {
+    if (!name) {
       return res.status(400).json({
         success: false,
-        message: 'No data provided to update.'
-      })
+        message: "Name is required.",
+      });
     }
 
-    // Find user
     const user = await ServiceProvider.findById(userId);
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'User not found.'
-      })
+        message: "User not found.",
+      });
     }
 
-    // Update fields
-    if (name) user.name = name;
-    if (email) user.email = email;
-    if (contact) user.contact = contact;
-    if (gender) user.gender = gender;
-    if (profileImg) user.profileImage = profileImg;
-
-    // Save updated user
+    user.name = name;
     await user.save();
 
     res.status(200).json({
       success: true,
-      message: 'Profile updated successfully.',
+      message: "Name updated successfully.",
       user,
     });
-
   } catch (error) {
-    console.error('Error updating profile: ', error);
+    console.error("Error updating name: ", error);
     res.status(500).json({
       success: false,
-      message: 'Server error',
-      error: error.message
-    })
+      message: "Server error",
+      error: error.message,
+    });
   }
 };
 
 
+// Controller to update service provider email
+const updateServiceProviderEmail = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required.",
+      });
+    }
+
+    const user = await ServiceProvider.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    user.email = email;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Email updated successfully.",
+      user,
+    });
+  } catch (error) {
+    console.error("Error updating email: ", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+
+// Controller to update service provider contact
+const updateServiceProviderContact = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { contact } = req.body;
+
+    if (!contact) {
+      return res.status(400).json({
+        success: false,
+        message: "Contact is required.",
+      });
+    }
+
+    const user = await ServiceProvider.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    user.contact = contact;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Contact updated successfully.",
+      user,
+    });
+  } catch (error) {
+    console.error("Error updating contact: ", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+
+// Controller to update service provider gender
+const updateServiceProviderGender = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { gender } = req.body;
+
+    if (!gender) {
+      return res.status(400).json({
+        success: false,
+        message: "Gender is required.",
+      });
+    }
+
+    const user = await ServiceProvider.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    user.gender = gender;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Gender updated successfully.",
+      user,
+    });
+  } catch (error) {
+    console.error("Error updating gender: ", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+
+// Controller to handle service provider profile image
+const updateServiceProviderProfileImage = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const profileImg = req.file ? req.file.path : undefined;
+
+    if (!profileImg) {
+      return res.status(400).json({
+        success: false,
+        message: "Profile image is required.",
+      });
+    }
+
+    const user = await ServiceProvider.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    user.profileImage = profileImg;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Profile image updated successfully.",
+      user,
+    });
+  } catch (error) {
+    console.error("Error updating profile image: ", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+
+
 module.exports = {
     registerServiceProvider,
-    updateServiceProviderProfile,
+    updateServiceProviderName,
+    updateServiceProviderEmail,
+    updateServiceProviderContact,
+    updateServiceProviderGender,
+    updateServiceProviderProfileImage,
 }
 

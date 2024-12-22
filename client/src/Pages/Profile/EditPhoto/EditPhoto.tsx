@@ -7,63 +7,96 @@ import gallery_icon from "../../../assets/icons/gallery_icon.png";
 import camera_icon from "../../../assets/icons/camera_icon.png";
 
 const EditPhoto = () => {
+  const API = import.meta.env.VITE_API_URL;
   const [selectedImage, setSelectedImage] = useState(placeholder_icon_big);
+  const [imageFile, setImageFile] = useState<File | null>(null); // Store file for upload
+  const [isSaving, setIsSaving] = useState(false);
 
   // Handle choosing from gallery
   const handleGalleryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setImageFile(file); // Store file for uploading
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target?.result) {
-          setSelectedImage(e.target.result as string); // Ensure the result is treated as a string
+          setSelectedImage(e.target.result as string); // Preview the image
         }
       };
       reader.readAsDataURL(file);
     }
   };
-  
 
   // Handle taking a photo
   const handleTakePhoto = async () => {
     try {
-      // Request access to the camera
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      
-      // Create a video element to stream the video
       const video = document.createElement("video");
       video.srcObject = stream;
       video.play();
-  
-      // Wait for the video stream to initialize
-      await new Promise((resolve) => video.onloadedmetadata = resolve);
-  
-      // Create a canvas to capture the frame
+
+      await new Promise((resolve) => (video.onloadedmetadata = resolve));
+
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
-  
+
       if (context) {
-        // Set canvas dimensions to match video dimensions
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-  
-        // Capture the video frame into the canvas
+
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
-  
-        // Convert the canvas content to a base64 image URL
+
         const imageData = canvas.toDataURL("image/png");
         setSelectedImage(imageData);
-      } else {
-        console.error("Failed to get canvas context.");
+
+        // Convert base64 to a file for upload
+        const res = await fetch(imageData);
+        const blob = await res.blob();
+        const file = new File([blob], "photo.png", { type: "image/png" });
+        setImageFile(file);
       }
-  
-      // Stop the video stream and release resources
+
       stream.getTracks().forEach((track) => track.stop());
     } catch (error) {
       console.error("Error accessing camera:", error);
     }
   };
-  
+
+  // Handle save (API call to upload image)
+  const saveImage = async () => {
+    if (!imageFile) {
+      alert("No image selected.");
+      return;
+    }
+
+    setIsSaving(true);
+
+    const formData = new FormData();
+    formData.append("profileImg", imageFile);
+
+    try {
+      const response = await fetch(`${API}/api/serviceProvider/updatePhoto//name`, {
+        method: "PATCH",
+        body: formData,
+        headers: {
+          // Add authorization headers if needed
+        },
+      });
+
+      if (response.ok) {
+        alert("Profile photo updated successfully!");
+      } else {
+        const errorData = await response.json();
+        console.error("Error updating photo:", errorData);
+        alert("Failed to update profile photo.");
+      }
+    } catch (error) {
+      console.error("Error updating photo:", error);
+      alert("An error occurred while saving the photo.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <div>
@@ -77,8 +110,12 @@ const EditPhoto = () => {
         <h1 className="text-[22px] md:text-[30px] font-bold text-[#282828] text-center flex-grow">
           Edit photo
         </h1>
-        <button className="w-[72px] h-[33px] bg-[#c0c0c0] hover:bg-[#a6a6a6] duration-500 rounded-[3.53px] flex items-center justify-center text-white">
-          Save
+        <button
+          className="w-[72px] h-[33px] bg-[#c0c0c0] hover:bg-[#a6a6a6] duration-500 rounded-[3.53px] flex items-center justify-center text-white"
+          onClick={saveImage}
+          disabled={isSaving}
+        >
+          {isSaving ? "Saving..." : "Save"}
         </button>
       </div>
 
