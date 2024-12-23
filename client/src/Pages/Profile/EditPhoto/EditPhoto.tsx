@@ -64,6 +64,7 @@ const EditPhoto = () => {
 
   // Handle save (API call to upload image)
   const saveImage = async () => {
+    const userId = localStorage.getItem("skillspot_userId");
     if (!imageFile) {
       alert("No image selected.");
       return;
@@ -75,13 +76,16 @@ const EditPhoto = () => {
     formData.append("profileImg", imageFile);
 
     try {
-      const response = await fetch(`${API}/api/serviceProvider/updatePhoto//name`, {
-        method: "PATCH",
-        body: formData,
-        headers: {
-          // Add authorization headers if needed
-        },
-      });
+      const response = await fetch(
+        `${API}/api/serviceProvider/updatePhoto/name`,
+        {
+          method: "PATCH",
+          body: formData,
+          headers: {
+            // Add authorization headers if needed
+          },
+        }
+      );
 
       if (response.ok) {
         alert("Profile photo updated successfully!");

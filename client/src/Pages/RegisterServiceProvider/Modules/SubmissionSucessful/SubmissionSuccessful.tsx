@@ -7,6 +7,7 @@ interface SubmissionSuccessfulPropTypes {
 }
 
 const SubmissionSuccessful: React.FC<SubmissionSuccessfulPropTypes> = ({hideModal}) => {
+  
   return (
     <section className="fixed flex bottom-0 top-0 w-full p-4 mx-auto bg-black bg-opacity-80 h-full z-50">
     <div className="shadow w-full bg-white flex items-center h-fit self-end flex-col gap-4 rounded-[9px] py-4 md:w-2/3 mx-auto">

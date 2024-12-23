@@ -13,9 +13,30 @@ import star from "../../assets/icons/star.png";
 import logout from "../../assets/icons/log-out.png";
 import { useAppContext } from "../../Context/StoreContext";
 import Logout from "../Logout/Logout";
+import { useNavigate } from "react-router";
+import {toast} from 'react-toastify';
 
 const Menu = () => {
   const {showMenu, setShowMenu, showLogoutModule, setShowLogoutModule} = useAppContext();
+
+  const navigate = useNavigate();
+
+    // Confirm if user is authenticated
+    const checkIfAuth = () => {
+      const userId = localStorage.getItem("skillspot_userId");
+      if (userId) {
+        navigate("/profile/editPhoto");
+      } else {
+        toast.error("Login First!", {
+          autoClose: 5000, // Close after 5 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        return;
+      }
+    };
   return (
     <>
       { showMenu &&
@@ -33,10 +54,10 @@ const Menu = () => {
           </div>
 
           <div className="mb-3">
-            <div className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px] cursor-pointer">
+            <div onClick={checkIfAuth} className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={user} alt="user icon" />
-                <Link to={'/profile'} className="text-[15px] text-gray-900">My Profile</Link>
+                <span className="text-[15px] text-gray-900">My Profile</span>
               </div>
               <img src={next} alt="next icon" />
             </div>

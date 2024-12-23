@@ -4,7 +4,9 @@ import { nigeriaStatesLGA } from "../../data/nigeriaStatesLGA";
 import Select from "react-select";
 import { allSkills } from "../../data/skills";
 import SubmissionSuccessful from "./Modules/SubmissionSucessful/SubmissionSuccessful";
+import { useNavigate } from "react-router";
 import axios from "axios";
+import { Link } from "react-router";
 
 const RegisterServiceProvider = () => {
   const API = import.meta.env.VITE_API_URL;
@@ -13,6 +15,8 @@ const RegisterServiceProvider = () => {
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedLGA, setSelectedLGA] = useState<string>("");
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+
+  const navigate = useNavigate();
 
   // Handle State Selection
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -27,7 +31,8 @@ const RegisterServiceProvider = () => {
   // Hide Submission Modal function
   const hideModal = () => {
     setShowSubmissionModal(false);
-  }
+    navigate("/");
+  };
 
   // Register service provider
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -50,36 +55,52 @@ const RegisterServiceProvider = () => {
       servicesAndSkills: selectedSkills.map((skill) => skill.trim()),
     };
 
-
     try {
-      const response = await axios.post(`${API}/api/serviceProvider/register`, data);
+      const response = await axios.post(
+        `${API}/api/serviceProvider/register`,
+        data
+      );
       console.log("Registration successful:", response.data);
+      if (response.status === 201) {
+        const { id } = response.data.serviceProvider;
+        localStorage.setItem("skillspot_userId", id);
+      }
       setLoading(false);
-      setShowSubmissionModal(true); 
+      setShowSubmissionModal(true);
     } catch (error: any) {
-      console.error("Registration failed:", error.response?.data || error.message);
+      console.error(
+        "Registration failed:",
+        error.response?.data || error.message
+      );
       setLoading(false);
-      alert(error.response?.data?.message || "An error occurred during registration.");
+      alert(
+        error.response?.data?.message ||
+          "An error occurred during registration."
+      );
     }
-
   };
 
   return (
     <>
-      <div className="text-black pb-32">
-        {/* { <SubmissionSuccessful />} */}
-        <div className="bg-white py-4 px-2 md:px-10 flex items-center justify-between fixed z-50 top-0 left-0 w-full">
-          <span className="absolute left-2 md:left-10 cursor-pointer">
-            <GrFormPrevious className="text-2xl" />
-          </span>
-          <h1 className="text-[22px] md:text-[30px] font-bold text-[#282828] text-center flex-grow">
-            Become a service provider
-          </h1>
+      <div className="text-black pb-32 robotoFlex">
+        <div className="bg-white justify-center py-4 px-2 md:px-10 fixed z-50 top-0 left-0 w-full">
+          <div className=" flex items-center justify-between">
+            <Link
+              to={"/"}
+              className="absolute left-2 md:left-10 cursor-pointer"
+            >
+              <GrFormPrevious className="text-2xl" />
+            </Link>
+            <h1 className="text-[22px] md:text-[30px] font-bold text-[#282828] text-center flex-grow">
+              Become a service provider
+            </h1>
+          </div>
+          <small className="float-end text-gray-600">Already registered ? <Link to={'/loginServiceProvider'} className="text-[#282828] font-bold">Login</Link></small>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="mt-[5rem] space-y-4 px-4 md:px-10 md:w-2/3 py-4 mx-auto "
+          className="mt-[7rem] space-y-4 px-4 md:px-10 md:w-2/3 py-4 mx-auto "
         >
           {/* Name */}
           <div className="space-y-2">
@@ -274,7 +295,7 @@ const RegisterServiceProvider = () => {
             type="submit"
             className="w-full h-[52px] bg-[#282828] text-gray-100 py-2 px-4 text-[16px] rounded-[6px] font-medium hover:scale-105 duration-500 focus:outline-none focus:ring-2 focus:ring-purple-700 flex items-center justify-center"
           >
-            {loading ? 'Loading' : 'Register'}
+            {loading ? "Loading" : "Register"}
           </button>
         </form>
         {showSubmissionModal && <SubmissionSuccessful hideModal={hideModal} />}

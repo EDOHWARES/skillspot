@@ -5,6 +5,7 @@ import PromptRegistration from "../RegisterServiceProvider/Modules/PromptRegistr
 import RegisterServiceProvider from "../RegisterServiceProvider/RegisterServiceProvider";
 import ContactUs from "../ContactUs/ContactUs";
 import Profile from "../Profile/Profile";
+import LoginServiceProvider from "../LoginServiceProvider/LoginServiceProvider";
 
 const HomeHome = () => {
   return (
@@ -24,6 +25,7 @@ const Home = () => {
         <Route path="/" element={<HomeHome />} />
         <Route path="/prompt-registration" element={<PromptRegistration />} />
         <Route path="/registerServiceProvider" element={<RegisterServiceProvider />} />
+        <Route path="/loginServiceProvider" element={<LoginServiceProvider />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/profile/*" element={<Profile />} />
       </Routes>
