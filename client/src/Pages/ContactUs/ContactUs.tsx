@@ -134,8 +134,8 @@ const ContactUs = () => {
   const [phone, setPhone] = useState(false);
   const [email, setEmail] = useState(false);
 
+  // Hide menu bar
   const { setShowMenu } = useAppContext();
-
   useEffect(() => {
     setShowMenu(false);
   }, []);

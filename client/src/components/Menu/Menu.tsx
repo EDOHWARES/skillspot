@@ -25,7 +25,7 @@ const Menu = () => {
     const checkIfAuth = () => {
       const userId = localStorage.getItem("skillspot_userId");
       if (userId) {
-        navigate("/profile/editPhoto");
+        navigate("/profile");
       } else {
         toast.error("Login First!", {
           autoClose: 5000, // Close after 5 seconds

@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs');
-const ServiceProvider = require('../models/serviceProviderModel');
-const { validationResult } = require('express-validator');
+const bcrypt = require("bcryptjs");
+const ServiceProvider = require("../models/serviceProviderModel");
+const { validationResult } = require("express-validator");
 
 // Controller to register a new service provider
 const registerServiceProvider = async (req, res) => {
@@ -25,7 +25,9 @@ const registerServiceProvider = async (req, res) => {
     // Check if the service provider already exists
     const existingProvider = await ServiceProvider.findOne({ phone });
     if (existingProvider) {
-      return res.status(400).json({ message: 'Phone Number is already registered.' });
+      return res
+        .status(400)
+        .json({ message: "Phone Number is already registered." });
     }
 
     // Hash the password for security
@@ -47,7 +49,7 @@ const registerServiceProvider = async (req, res) => {
     await newServiceProvider.save();
 
     res.status(201).json({
-      message: 'Service provider registered successfully.',
+      message: "Service provider registered successfully.",
       serviceProvider: {
         id: newServiceProvider._id,
         name: newServiceProvider.name,
@@ -57,7 +59,54 @@ const registerServiceProvider = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'An error occurred while registering the service provider.' });
+    res
+      .status(500)
+      .json({
+        message: "An error occurred while registering the service provider.",
+      });
+  }
+};
+
+// Controller to login a service provider
+const loginServiceProvider = async (req, res) => {
+  const { email, phone, password } = req.body;
+
+  // Ensure either email or phone is provided
+  if (!email && !phone) {
+    return res
+      .status(400)
+      .json({ message: "Email or phone number is required." });
+  }
+
+  try {
+    // Find the user based on email or phone
+    const provider = await ServiceProvider.findOne(
+      email ? { email } : { phone }
+    );
+
+    // If user is not found
+    if (!provider) {
+      return res
+        .status(404)
+        .json({
+          message: "No account found with the provided email or phone number.",
+        });
+    }
+
+    // Compare the provided password with the hashed password
+    const isPasswordValid = await bcrypt.compare(password, provider.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid password." });
+    }
+
+    // Successful login
+    res.status(200).json({
+      message: "Login successful.",
+      userId: provider._id,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred during login." });
   }
 };
 
@@ -100,7 +149,6 @@ const updateServiceProviderName = async (req, res) => {
   }
 };
 
-
 // Controller to update service provider email
 const updateServiceProviderEmail = async (req, res) => {
   try {
@@ -139,7 +187,6 @@ const updateServiceProviderEmail = async (req, res) => {
     });
   }
 };
-
 
 // Controller to update service provider contact
 const updateServiceProviderContact = async (req, res) => {
@@ -180,7 +227,6 @@ const updateServiceProviderContact = async (req, res) => {
   }
 };
 
-
 // Controller to update service provider gender
 const updateServiceProviderGender = async (req, res) => {
   try {
@@ -219,7 +265,6 @@ const updateServiceProviderGender = async (req, res) => {
     });
   }
 };
-
 
 // Controller to handle service provider profile image
 const updateServiceProviderProfileImage = async (req, res) => {
@@ -260,14 +305,12 @@ const updateServiceProviderProfileImage = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
-    registerServiceProvider,
-    updateServiceProviderName,
-    updateServiceProviderEmail,
-    updateServiceProviderContact,
-    updateServiceProviderGender,
-    updateServiceProviderProfileImage,
-}
-
+  registerServiceProvider,
+  loginServiceProvider,
+  updateServiceProviderName,
+  updateServiceProviderEmail,
+  updateServiceProviderContact,
+  updateServiceProviderGender,
+  updateServiceProviderProfileImage,
+};

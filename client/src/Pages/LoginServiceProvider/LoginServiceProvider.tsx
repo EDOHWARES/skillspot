@@ -16,7 +16,7 @@ const LoginServiceProvider = () => {
             Login
           </h1>
         </div>
-        <small className="float-end text-gray-600">
+        <small className="float-end text-gray-600 pr-4">
           Don't have an account ?{" "}
           <Link
             to={"/registerServiceProvider"}

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { GrFormPrevious } from "react-icons/gr";
 import { Link } from "react-router-dom";
 
 import placeholder_icon_big from "../../../assets/images/profile_placeholder_big.png";
 import gallery_icon from "../../../assets/icons/gallery_icon.png";
 import camera_icon from "../../../assets/icons/camera_icon.png";
+import { toast } from "react-toastify";
 
 const EditPhoto = () => {
   const API = import.meta.env.VITE_API_URL;
@@ -65,6 +66,9 @@ const EditPhoto = () => {
   // Handle save (API call to upload image)
   const saveImage = async () => {
     const userId = localStorage.getItem("skillspot_userId");
+    if (!userId) {
+      toast.error('User Id not found!')
+    }
     if (!imageFile) {
       alert("No image selected.");
       return;

@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   registerServiceProvider,
+  loginServiceProvider,
   updateServiceProviderName,
   updateServiceProviderEmail,
   updateServiceProviderContact,
@@ -12,6 +13,9 @@ const upload = require("../middlewares/multer");
 
 // Route for registering a service provider
 serviceProviderRouter.post("/register", registerServiceProvider);
+
+// Route to login a service provider
+serviceProviderRouter.post("/login", loginServiceProvider);
 
 // Individual routes for updating profile fields
 serviceProviderRouter.patch(

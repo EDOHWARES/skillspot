@@ -95,7 +95,7 @@ const RegisterServiceProvider = () => {
               Become a service provider
             </h1>
           </div>
-          <small className="float-end text-gray-600">Already registered ? <Link to={'/loginServiceProvider'} className="text-[#282828] font-bold">Login</Link></small>
+          <small className="float-end text-gray-600 pr-4">Already registered ? <Link to={'/loginServiceProvider'} className="text-[#282828] font-bold">Login</Link></small>
         </div>
 
         <form
