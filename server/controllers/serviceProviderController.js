@@ -59,20 +59,18 @@ const registerServiceProvider = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message: "An error occurred while registering the service provider.",
-      });
+    res.status(500).json({
+      message: "An error occurred while registering the service provider.",
+    });
   }
 };
 
 // Controller to login a service provider
 const loginServiceProvider = async (req, res) => {
-  const { email, phone, password } = req.body;
+  const { emailOrPhone, password } = req.body;
 
   // Ensure either email or phone is provided
-  if (!email && !phone) {
+  if (!emailOrPhone) {
     return res
       .status(400)
       .json({ message: "Email or phone number is required." });
@@ -80,17 +78,15 @@ const loginServiceProvider = async (req, res) => {
 
   try {
     // Find the user based on email or phone
-    const provider = await ServiceProvider.findOne(
-      email ? { email } : { phone }
-    );
+    const provider = await ServiceProvider.findOne({
+      $or: [{ email: emailOrPhone }, { phone: emailOrPhone }],
+    });
 
     // If user is not found
     if (!provider) {
-      return res
-        .status(404)
-        .json({
-          message: "No account found with the provided email or phone number.",
-        });
+      return res.status(404).json({
+        message: "No account found with the provided email or phone number.",
+      });
     }
 
     // Compare the provided password with the hashed password
@@ -106,6 +102,7 @@ const loginServiceProvider = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    console.log(error.message)
     res.status(500).json({ message: "An error occurred during login." });
   }
 };
