@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../../assets/icons/skillspot-icon.png";
 import menu from "../../assets/icons/menu.png";
 import { Link } from "react-router";

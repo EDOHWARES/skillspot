@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useEffect, useState } from "react";
 import { GrFormPrevious } from "react-icons/gr";
 import { Link } from "react-router-dom";
 
@@ -6,11 +6,15 @@ import placeholder_icon_big from "../../../assets/images/profile_placeholder_big
 import gallery_icon from "../../../assets/icons/gallery_icon.png";
 import camera_icon from "../../../assets/icons/camera_icon.png";
 import { toast } from "react-toastify";
+import { useAppContext } from "../../../Context/StoreContext";
+import { FadeLoader } from "react-spinners";
 
 const EditPhoto = () => {
   const API = import.meta.env.VITE_API_URL;
+  const { serviceProviderProfileInfo, loadingServiceProviderProfileInfo } =
+    useAppContext();
   const [selectedImage, setSelectedImage] = useState(placeholder_icon_big);
-  const [imageFile, setImageFile] = useState<File | null>(null); // Store file for upload
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
   // Handle choosing from gallery
@@ -67,7 +71,8 @@ const EditPhoto = () => {
   const saveImage = async () => {
     const userId = localStorage.getItem("skillspot_userId");
     if (!userId) {
-      toast.error('User Id not found!')
+      toast.error("User Id not found!");
+      return;
     }
     if (!imageFile) {
       alert("No image selected.");
@@ -81,13 +86,10 @@ const EditPhoto = () => {
 
     try {
       const response = await fetch(
-        `${API}/api/serviceProvider/updatePhoto/name`,
+        `${API}/api/serviceProvider/updateProfile/${userId}/profileImg`,
         {
           method: "PATCH",
           body: formData,
-          headers: {
-            // Add authorization headers if needed
-          },
         }
       );
 
@@ -106,6 +108,26 @@ const EditPhoto = () => {
     }
   };
 
+  useEffect(() => {
+    if (!loadingServiceProviderProfileInfo) {
+      if (serviceProviderProfileInfo) {
+        setSelectedImage(`${API}/${serviceProviderProfileInfo.profileImage}`);
+      }
+    }
+  }, [loadingServiceProviderProfileInfo]);
+
+  if (loadingServiceProviderProfileInfo) {
+    return (
+      <div className="z-50 w-screen h-screen flex items-center justify-center">
+        <FadeLoader color="#276100" loading={true} />
+      </div>
+    );
+  }
+
+  if (!serviceProviderProfileInfo) {
+    return <div>Error loading profile data.</div>;
+  }
+
   return (
     <div>
       <div className="bg-white py-4 px-2 md:px-10 flex items-center justify-between fixed z-50 top-0 left-0 w-full">
@@ -118,13 +140,15 @@ const EditPhoto = () => {
         <h1 className="text-[22px] md:text-[30px] font-bold text-[#282828] text-center flex-grow">
           Edit photo
         </h1>
-        <button
-          className="w-[72px] h-[33px] bg-[#c0c0c0] hover:bg-[#a6a6a6] duration-500 rounded-[3.53px] flex items-center justify-center text-white"
-          onClick={saveImage}
-          disabled={isSaving}
-        >
-          {isSaving ? "Saving..." : "Save"}
-        </button>
+        <form onSubmit={saveImage}>
+          <button
+            className="w-[72px] h-[33px] bg-[#c0c0c0] hover:bg-[#a6a6a6] duration-500 rounded-[3.53px] flex items-center justify-center text-white"
+            onClick={saveImage}
+            disabled={isSaving}
+          >
+            {isSaving ? "Saving..." : "Save"}
+          </button>
+        </form>
       </div>
 
       <div className="flex flex-col items-center mt-[8rem] space-y-8">

@@ -17,7 +17,7 @@ interface ServicesCardProps {
 
 const ServicesCard: React.FC<ServicesCardProps> = ({ icon, title }) => {
   return (
-    <div className="w-full h-[102px] flex items-center justify-center flex-col gap-[1rem] shadow-sm bg-white rounded-[9.8px] hover:scale-105 duration-500">
+    <div className="w-full h-[102px] flex items-center justify-center flex-col gap-[1rem] shadow-md bg-white rounded-[9.8px] hover:scale-105 duration-500">
       <img src={icon} alt={title} className="w-[44.56px]" />
       <p className="text-[11px] md:text-balance text-gray-800">{title}</p>
     </div>

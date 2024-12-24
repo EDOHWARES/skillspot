@@ -2,6 +2,7 @@ const express = require("express");
 const {
   registerServiceProvider,
   loginServiceProvider,
+  getServiceProviderProfileInfo,
   updateServiceProviderName,
   updateServiceProviderEmail,
   updateServiceProviderContact,
@@ -16,6 +17,9 @@ serviceProviderRouter.post("/register", registerServiceProvider);
 
 // Route to login a service provider
 serviceProviderRouter.post("/login", loginServiceProvider);
+
+// Route to get service provider profile info
+serviceProviderRouter.get("/profile/:userId", getServiceProviderProfileInfo);
 
 // Individual routes for updating profile fields
 serviceProviderRouter.patch(

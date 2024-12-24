@@ -102,8 +102,40 @@ const loginServiceProvider = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    console.log(error.message)
+    console.log(error.message);
     res.status(500).json({ message: "An error occurred during login." });
+  }
+};
+
+// Controller to get service provider's profile infos
+const getServiceProviderProfileInfo = async (req, res) => {
+  const { userId } = req.params; // Extract userId from route params.
+
+  try {
+    const serviceProvider = await ServiceProvider.findById(userId).select(
+      "profileImage name email phone gender"
+    );
+
+    if (!serviceProvider) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    res.status(200).json({
+      id: serviceProvider._id,
+      profileImage: serviceProvider.profileImage,
+      name: serviceProvider.name,
+      phone: serviceProvider.phone,
+      email: serviceProvider.email,
+      gender: serviceProvider.gender,
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while fetching user details." });
   }
 };
 
@@ -264,6 +296,9 @@ const updateServiceProviderGender = async (req, res) => {
 };
 
 // Controller to handle service provider profile image
+const fs = require("fs");
+const path = require("path");
+
 const updateServiceProviderProfileImage = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -276,6 +311,7 @@ const updateServiceProviderProfileImage = async (req, res) => {
       });
     }
 
+    // Find the user
     const user = await ServiceProvider.findById(userId);
     if (!user) {
       return res.status(404).json({
@@ -284,6 +320,17 @@ const updateServiceProviderProfileImage = async (req, res) => {
       });
     }
 
+    // Delete old profile image if it exists
+    if (user.profileImage) {
+      const oldImagePath = path.resolve(user.profileImage); // Ensure absolute path
+      fs.unlink(oldImagePath, (err) => {
+        if (err) {
+          console.error("Error deleting old profile image:", err.message);
+        }
+      });
+    }
+
+    // Update the profile image in the database
     user.profileImage = profileImg;
     await user.save();
 
@@ -293,7 +340,7 @@ const updateServiceProviderProfileImage = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.error("Error updating profile image: ", error);
+    console.error("Error updating profile image: ", error.message);
     res.status(500).json({
       success: false,
       message: "Server error",
@@ -305,6 +352,7 @@ const updateServiceProviderProfileImage = async (req, res) => {
 module.exports = {
   registerServiceProvider,
   loginServiceProvider,
+  getServiceProviderProfileInfo,
   updateServiceProviderName,
   updateServiceProviderEmail,
   updateServiceProviderContact,

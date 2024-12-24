@@ -1,5 +1,6 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 // Configure where files will be stored
 const storage = multer.diskStorage({
@@ -8,7 +9,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const fileExtension = path.extname(file.originalname); // e.g., ".jpg"
+    const fileExtension = path.extname(file.originalname) || ".png"; // Ensure a fallback
     cb(null, `profile-${uniqueSuffix}${fileExtension}`);
   },
 });
@@ -16,10 +17,13 @@ const storage = multer.diskStorage({
 // File validation (accept only images)
 const fileFilter = (req, file, cb) => {
   const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
-  if (allowedTypes.includes(file.mimetype)) {
+  if (allowedTypes.includes(file.mimetype.toLowerCase())) {
     cb(null, true); // Accept the file
   } else {
-    cb(new Error("Only JPEG, PNG, and JPG files are allowed."), false);
+    cb(
+      new Error("Invalid file type. Only JPEG, PNG, and JPG are allowed."),
+      false
+    );
   }
 };
 
