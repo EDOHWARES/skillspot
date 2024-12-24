@@ -10,7 +10,7 @@ import { fetchServiceProviderProfile } from "../api/api";
 // Service provider profile type
 interface ServiceProviderProfileType {
   profileImage: string;
-  contact: string;
+  phone: string;
   email: string;
   name: string;
   gender: string;

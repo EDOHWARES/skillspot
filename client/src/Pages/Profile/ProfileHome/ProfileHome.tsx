@@ -10,6 +10,11 @@ import { FadeLoader } from "react-spinners";
 const ProfileHome = () => {
   const API = import.meta.env.VITE_API_URL;
   const [selectedImage, setSelectedImage] = useState(profile_placeholder);
+  const [selectedName, setSelectedName] = useState("");
+  const [selectedEmail, setSelectedEmail] = useState("");
+  const [selectedContact, setSelectedContact] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
+
   const {
     setShowMenu,
     serviceProviderProfileInfo,
@@ -24,6 +29,10 @@ const ProfileHome = () => {
     if (!loadingServiceProviderProfileInfo) {
       if (serviceProviderProfileInfo) {
         setSelectedImage(`${API}/${serviceProviderProfileInfo.profileImage}`);
+        setSelectedName(serviceProviderProfileInfo.name);
+        setSelectedContact(serviceProviderProfileInfo.phone);
+        setSelectedEmail(serviceProviderProfileInfo.email);
+        setSelectedGender(serviceProviderProfileInfo.gender);
       }
     }
   }, [loadingServiceProviderProfileInfo]);
@@ -59,33 +68,39 @@ const ProfileHome = () => {
             Profile photo
           </span>
           <div className="flex items-center space-x-8">
-            <img src={selectedImage} alt="placeholder" className="w-[58px] h-[58px] object-cover rounded-[3px]" />
+            <img
+              src={selectedImage}
+              alt="placeholder"
+              className="w-[58px] h-[58px] object-cover rounded-[3px]"
+            />
             <img src={next_icon} alt="next icon" />
           </div>
         </Link>
         <div className="h-[63px] w-full flex items-center justify-between bg-white px-2 md:px-10 mt-[.2rem] cursor-pointer hover:scale-95 hover:bg-gray-50 duration-500">
           <span className="font-bold text-[15px] text-gray-800">Name</span>
-          <div>
+          <div className="flex items-center space-x-8">
+            <span className="text-[15px] text-gray-500">{selectedName}</span>
             <img src={next_icon} alt="next icon" />
           </div>
         </div>
         <div className="h-[63px] w-full flex items-center justify-between bg-white px-2 md:px-10 mt-[.2rem] cursor-pointer hover:scale-95 hover:bg-gray-50 duration-500">
           <span className="font-bold text-[15px] text-gray-800">Email</span>
           <div className="flex items-center space-x-8">
-            <span className="text-[15px] text-gray-500">edoh@example.com</span>
+            <span className="text-[15px] text-gray-500">{selectedEmail}</span>
             <img src={next_icon} alt="next icon" />
           </div>
         </div>
         <div className="h-[63px] w-full flex items-center justify-between bg-white px-2 md:px-10 mt-[.2rem] cursor-pointer hover:scale-95 hover:bg-gray-50 duration-500">
           <span className="font-bold text-[15px] text-gray-800">Contact</span>
           <div className="flex items-center space-x-8">
-            <span className="text-[15px] text-gray-500">234-456-7890</span>
+            <span className="text-[15px] text-gray-500">{selectedContact}</span>
             <img src={next_icon} alt="next icon" />
           </div>
         </div>
         <div className="h-[63px] w-full flex items-center justify-between bg-white px-2 md:px-10 mt-[.2rem] cursor-pointer hover:scale-95 hover:bg-gray-50 duration-500">
-          <span className="font-bold text-[15px] text-gray-800">Contact</span>
-          <div>
+          <span className="font-bold text-[15px] text-gray-800">Gender</span>
+          <div className="flex items-center space-x-8">
+            <span className="text-[15px] text-gray-500">{selectedGender}</span>
             <img src={next_icon} alt="next icon" />
           </div>
         </div>
