@@ -8,6 +8,9 @@ import camera_icon from "../../../assets/icons/camera_icon.png";
 import { toast } from "react-toastify";
 import { useAppContext } from "../../../Context/StoreContext";
 import { FadeLoader } from "react-spinners";
+import Success from "../Modal/Sucess";
+import image_upload_success from "../../../assets/images/image_upload_success.png";
+
 
 const EditPhoto = () => {
   const API = import.meta.env.VITE_API_URL;
@@ -16,6 +19,8 @@ const EditPhoto = () => {
   const [selectedImage, setSelectedImage] = useState(placeholder_icon_big);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [photoSaved, setPhotoSaved] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Handle choosing from gallery
   const handleGalleryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +80,7 @@ const EditPhoto = () => {
       return;
     }
     if (!imageFile) {
-      alert("No image selected.");
+      toast.error('No image selected!')
       return;
     }
 
@@ -94,7 +99,8 @@ const EditPhoto = () => {
       );
 
       if (response.ok) {
-        alert("Profile photo updated successfully!");
+        setPhotoSaved(true);
+        setShowSuccessModal(true);
       } else {
         const errorData = await response.json();
         console.error("Error updating photo:", errorData);
@@ -108,6 +114,13 @@ const EditPhoto = () => {
     }
   };
 
+    // Hide success modal function
+    const hideModal = () => {
+      setShowSuccessModal(false);
+      window.location.reload();
+    };
+
+  // Initialize profile photo
   useEffect(() => {
     if (!loadingServiceProviderProfileInfo) {
       if (serviceProviderProfileInfo) {
@@ -140,15 +153,13 @@ const EditPhoto = () => {
         <h1 className="text-[22px] md:text-[30px] font-bold text-[#282828] text-center flex-grow">
           Edit photo
         </h1>
-        <form onSubmit={saveImage}>
           <button
-            className="w-[72px] h-[33px] bg-[#c0c0c0] hover:bg-[#a6a6a6] duration-500 rounded-[3.53px] flex items-center justify-center text-white"
+            className={`w-[72px] h-[33px] ${photoSaved ? 'bg-[#282828] hover:bg-[#525151]' : 'bg-[#c0c0c0] hover:bg-[#a6a6a6]'} duration-500 rounded-[3.53px] flex items-center justify-center text-white`}
             onClick={saveImage}
             disabled={isSaving}
           >
-            {isSaving ? "Saving..." : "Save"}
+            {isSaving ? "Saving..." : photoSaved ? 'Saved': 'Save'}
           </button>
-        </form>
       </div>
 
       <div className="flex flex-col items-center mt-[8rem] space-y-8">
@@ -181,6 +192,7 @@ const EditPhoto = () => {
           </li>
         </ul>
       </div>
+      {showSuccessModal && <Success img={image_upload_success} message="Image updated successfully!" hideModal={hideModal} />}
     </div>
   );
 };
