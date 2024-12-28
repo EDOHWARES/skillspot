@@ -10,7 +10,6 @@ import LoginServiceProvider from "../LoginServiceProvider/LoginServiceProvider";
 const HomeHome = () => {
   return (
     <>
-      <Header />
       <div className="px-4 md:px-10">
         <Services />
       </div>

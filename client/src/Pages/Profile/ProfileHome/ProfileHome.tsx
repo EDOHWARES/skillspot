@@ -83,27 +83,27 @@ const ProfileHome = () => {
             <img src={next_icon} alt="next icon" />
           </div>
         </Link>
-        <div className="h-[63px] w-full flex items-center justify-between bg-white px-2 md:px-10 mt-[.2rem] cursor-pointer hover:scale-95 hover:bg-gray-50 duration-500">
+        <Link to={'/profile/editEmail'} className="h-[63px] w-full flex items-center justify-between bg-white px-2 md:px-10 mt-[.2rem] cursor-pointer hover:scale-95 hover:bg-gray-50 duration-500">
           <span className="font-bold text-[15px] text-gray-800">Email</span>
           <div className="flex items-center space-x-8">
             <span className="text-[15px] text-gray-500">{selectedEmail}</span>
             <img src={next_icon} alt="next icon" />
           </div>
-        </div>
-        <div className="h-[63px] w-full flex items-center justify-between bg-white px-2 md:px-10 mt-[.2rem] cursor-pointer hover:scale-95 hover:bg-gray-50 duration-500">
+        </Link>
+        <Link to={'/profile/editContact'} className="h-[63px] w-full flex items-center justify-between bg-white px-2 md:px-10 mt-[.2rem] cursor-pointer hover:scale-95 hover:bg-gray-50 duration-500">
           <span className="font-bold text-[15px] text-gray-800">Contact</span>
           <div className="flex items-center space-x-8">
             <span className="text-[15px] text-gray-500">{selectedContact}</span>
             <img src={next_icon} alt="next icon" />
           </div>
-        </div>
-        <div className="h-[63px] w-full flex items-center justify-between bg-white px-2 md:px-10 mt-[.2rem] cursor-pointer hover:scale-95 hover:bg-gray-50 duration-500">
+        </Link>
+        <Link to={'/profile/editGender'} className="h-[63px] w-full flex items-center justify-between bg-white px-2 md:px-10 mt-[.2rem] cursor-pointer hover:scale-95 hover:bg-gray-50 duration-500">
           <span className="font-bold text-[15px] text-gray-800">Gender</span>
           <div className="flex items-center space-x-8">
             <span className="text-[15px] text-gray-500">{selectedGender}</span>
             <img src={next_icon} alt="next icon" />
           </div>
-        </div>
+        </Link>
       </section>
     </div>
   );

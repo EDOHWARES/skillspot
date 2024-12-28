@@ -24,7 +24,7 @@ const serviceProviderSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: function (val) {
-          return val.length > 0; // Ensure the array is not empty
+          return val.length > 0; // Ensuring the array can not empty
         },
         message: "At least one service or skill is required.",
       },
@@ -48,7 +48,7 @@ const serviceProviderSchema = new mongoose.Schema(
     },
     profileImage: {
       type: String,
-      default: "https://via.placeholder.com/150", // Default profile image URL
+      default: "https://via.placeholder.com/150",
     },
     gender: {
       type: String,

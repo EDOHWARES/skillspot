@@ -238,7 +238,7 @@ const updateServiceProviderContact = async (req, res) => {
       });
     }
 
-    user.contact = contact;
+    user.phone = contact;
     await user.save();
 
     res.status(200).json({

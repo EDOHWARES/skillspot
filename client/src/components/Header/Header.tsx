@@ -13,11 +13,11 @@ import searchIcon from "../../assets/icons/search.png";
 
 const Header = () => {
     const location: any = useLocation();
-    const {setShowMenu} = useAppContext()
+    const {setShowMenu} = useAppContext();
 
   return (
     <>
-      <header className="fixed top-0 left-0 bg-[#CCFD04] h-[198px] w-full px-4 md:px-10 py-2 md:py-4 z-40">
+      <header className={`fixed top-0 left-0 bg-[#CCFD04] ${location.pathname == '/' ? 'h-[198px]' : 'h-fit py-6' } w-full px-4 md:px-10 py-2 md:py-4 z-40`}>
         <div className="max-w-[1440px] h-full mx-auto cont flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <div className="logo flex items-center space-x-2 cursor-pointer">
@@ -67,7 +67,7 @@ const Header = () => {
             </div>
           </div>
 
-          <form className="absolute left-0 right-0 md:right-[100%] bottom-0 mx-auto w-full max-w-[500px] mb-[-27px] px-4">
+          {location.pathname == '/' && <form className="absolute left-0 right-0 md:right-[100%] bottom-0 mx-auto w-full max-w-[500px] mb-[-27px] px-4">
             <div className="flex items-center shadow-md w-full max-w-[500px] h-[54px] rounded-[5px] bg-white space-x-2 mx-auto px-4 md:mx-0">
               <img src={searchIcon} alt="search icon" />
               <input
@@ -78,7 +78,7 @@ const Header = () => {
                 className="h-full w-full outline-none text-sm text-gray-500 md:text-base border-none focus-within:outline-none focus-within:border-none focus:border-none focus:outline-none bg-transparent"
               />
             </div>
-          </form>
+          </form>}
         </div>
       </header>
     </>

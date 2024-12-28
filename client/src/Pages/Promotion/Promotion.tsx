@@ -3,17 +3,17 @@ import { CiMenuKebab } from "react-icons/ci";
 
 const Promotion = () => {
   return (
-    <div className="bg-[#F3F5FD] h-full">
-      <div className="bg-white py-4 px-2 md:px-10 flex items-center justify-between relative">
+    <div className="bg-[#F3F5FD] h-full mt-[7rem]">
+      {/* <div className="bg-white py-4 px-2 md:px-10 flex items-center justify-between relative">
         <span className="absolute left-2 md:left-10">
           <CiMenuKebab />
         </span>
         <h1 className="text-[22px] md:text-[30px] font-bold text-[#282828] text-center flex-grow">
           Promotions
         </h1>
-      </div>
+      </div> */}
 
-      <div className="mx-auto w-fit my-auto mt-[7rem] h-full">
+      <div className="mx-auto w-fit my-auto mt-[5rem] h-full">
         <div className="text-center">
           <div className="mb-[3rem]">
             <img

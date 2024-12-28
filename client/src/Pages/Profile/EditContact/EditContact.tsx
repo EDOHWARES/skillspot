@@ -3,18 +3,18 @@ import { GrFormPrevious } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Success from "../Modal/Sucess";
-import name_upload_success from "../../../assets/images/name_update_success.png";
+import email_upload_success from "../../../assets/images/email_success.png";
 import { useAppContext } from "../../../Context/StoreContext";
 import { FadeLoader } from "react-spinners";
 
-const EditName = () => {
+const EditContact = () => {
   const API = import.meta.env.VITE_API_URL;
   const { serviceProviderProfileInfo, loadingServiceProviderProfileInfo } =
   useAppContext();
 
-  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-  const [nameSaved, setNameSaved] = useState(false);
+  const [contactSaved, setContactSaved] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Helper function to get localStorage
@@ -28,13 +28,13 @@ const EditName = () => {
   };
 
   // Handle save name
-  const saveName = async () => {
+  const saveContact = async () => {
     const userId = getLocalStorage("skillspot_userId");
     if (!userId) {
       toast.error("User Id not found!");
       return;
     }
-    if (!name) {
+    if (!contact) {
       toast.error("No changes found!");
       return;
     }
@@ -43,27 +43,27 @@ const EditName = () => {
 
     try {
       const response = await fetch(
-        `${API}/api/serviceProvider/updateProfile/${userId}/name`,
+        `${API}/api/serviceProvider/updateProfile/${userId}/contact`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name }),
+          body: JSON.stringify({ contact }),
         }
       );
 
       if (response.ok) {
-        setNameSaved(true);
+        setContactSaved(true);
         setShowSuccessModal(true);
       } else {
         const errorData = await response.json();
-        console.error("Error updating name:", errorData);
-        toast.error("Failed to update profile name.");
+        console.error("Error updating contact:", errorData);
+        toast.error("Failed to update profile contact.");
       }
     } catch (error) {
-      console.error("Error updating name:", error);
-      toast.error("An error occurred while saving the name.");
+      console.error("Error updating email:", error);
+      toast.error("An error occurred while saving the contact.");
     } finally {
       setIsSaving(false);
     }
@@ -75,11 +75,11 @@ const EditName = () => {
     window.location.reload();
   };
 
-    // Initialize profile name
+    // Initialize profile contact
   useEffect(() => {
     if (!loadingServiceProviderProfileInfo) {
       if (serviceProviderProfileInfo) {
-        setName(serviceProviderProfileInfo.name);
+        setContact(serviceProviderProfileInfo.phone);
       }
     }
   }, [loadingServiceProviderProfileInfo]);
@@ -107,35 +107,35 @@ const EditName = () => {
             <GrFormPrevious className="text-2xl" />
           </Link>
           <h1 className="text-[22px] md:text-[30px] font-bold text-[#282828] text-center flex-grow">
-            Edit Name
+            Edit Contact
           </h1>
           <button
             type="button"
             className={`w-[72px] h-[33px] ${
-              nameSaved
+              contactSaved
                 ? "bg-[#282828] hover:bg-[#525151]"
                 : "bg-[#c0c0c0] hover:bg-[#a6a6a6]"
             } duration-500 rounded-[3.53px] flex items-center justify-center text-white`}
-            onClick={saveName}
+            onClick={saveContact}
             disabled={isSaving}
           >
-            {isSaving ? "Saving..." : nameSaved ? "Saved" : "Save"}
+            {isSaving ? "Saving..." : contactSaved ? "Saved" : "Save"}
           </button>
         </div>
 
         <div className="mt-[8rem] border-b border-gray-300">
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
             className="font-semibold text-[17.46px] text-gray-900 border-none w-full outline-none focus:border-none focus:outline-none bg-transparent focus-within:outline-none focus-within:border-none"
           />
         </div>
       </div>
       {showSuccessModal && (
         <Success
-          img={name_upload_success}
-          message="Name updated successfully"
+          img={email_upload_success}
+          message="Contact updated successfully"
           hideModal={hideModal}
         />
       )}
@@ -143,4 +143,4 @@ const EditName = () => {
   );
 };
 
-export default EditName;
+export default EditContact;

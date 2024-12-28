@@ -42,8 +42,8 @@ const NotificationCard: React.FC<NotificationCardPropTypes> = ({
 
 const Notifications = () => {
   return (
-    <div className="w-full mb-[10rem]">
-      <div className="fixed top-0 w-full left-0">
+    <div className="w-full mb-[10rem] mt-[6.3rem]">
+      {/* <div className="fixed top-0 w-full left-0">
         <div className="bg-white mb-3 py-4 px-2 md:px-10 flex items-center justify-between relative">
           <span className="absolute left-4 md:left-10">
             <CiMenuKebab />
@@ -52,7 +52,7 @@ const Notifications = () => {
             Notifications
           </h1>
         </div>
-      </div>
+      </div> */}
 
       <div className="mx-auto w-full my-auto h-full space-y-[4px] mt-[4.5rem]">
         <NotificationCard

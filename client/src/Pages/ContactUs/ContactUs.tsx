@@ -6,6 +6,7 @@ import linkedin_icon from "../../assets/icons/linkedin_icon.png";
 import whatsapp_icon from "../../assets/icons/whatsapp_icon.png";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { IoChevronBack } from "react-icons/io5";
+import { Link } from "react-router";
 
 import copy_icon from "../../assets/icons/copy_icon.png";
 import contact_whatsapp_icon from "../../assets/icons/contact_whatsapp_icon.png";
@@ -142,9 +143,9 @@ const ContactUs = () => {
 
   return (
     <div className="w-full robotoFlex flex h-screen text-center flex-col items-center gap-[5rem] py-4 px-4 md:px-10">
-      <div className="flex items-start w-full absolute top-0 right-0 z-50 px-4 md:px-10 py-4">
+      <Link to='/' className="flex items-start w-full absolute top-0 right-0 z-50 px-4 md:px-10 py-4">
         <IoChevronBack />
-      </div>
+      </Link>
       <div>
         <h3 className="text-[#282828] mt-[5rem] text-[22px] font-bold">
           Contact Us

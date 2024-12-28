@@ -61,25 +61,25 @@ const Menu = () => {
               </div>
               <img src={next} alt="next icon" />
             </div>
-            <div className="flex items-center justify-between bg-white py-2 px-4 h-[60px] cursor-pointer">
+            <Link to={'/contactUs'} className="flex items-center justify-between bg-white py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={contact} alt="contact icon" />
-                <Link to={'/contactUs'} className="text-[15px] text-gray-900">Contact us</Link>
+                <span  className="text-[15px] text-gray-900">Contact us</span>
               </div>
               <img src={next} alt="next icon" />
-            </div>
+            </Link>
           </div>
 
           <div className="mb-3">
-            <div className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px] cursor-pointer">
+            <Link to={'/prompt-registration'}  className="flex items-center justify-between bg-white mb-[1px] py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={worker} alt="worker icon" />
-                <Link to={'/prompt-registration'} className="text-[15px] text-gray-900">
+                <span className="text-[15px] text-gray-900">
                   Register as a service provider
-                </Link>
+                </span>
               </div>
               <img src={next} alt="next icon" />
-            </div>
+            </Link>
             <div className="flex items-center justify-between bg-white py-2 px-4 h-[60px] cursor-pointer">
               <div className="flex items-center space-x-4">
                 <img src={brick} alt="brick icon" />
