@@ -110,7 +110,7 @@ const RegisterServiceProvider = () => {
             <input
               type="text"
               name="name"
-              placeholder="Edoh Emmanuel"
+              placeholder="e.g Edoh Emmanuel"
               required
               className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
             />
@@ -124,7 +124,7 @@ const RegisterServiceProvider = () => {
             <input
               type="email"
               name="email"
-              placeholder="edohemmanuel@gmail.com"
+              placeholder="e.g edohemmanuel@gmail.com"
               required={false}
               className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
             />
@@ -138,7 +138,7 @@ const RegisterServiceProvider = () => {
             <input
               type="tel"
               name="phone"
-              placeholder="08123456789"
+              placeholder="e.g 08123456789"
               required
               className="w-full h-[50px] bg-transparent px-4 py-2 border rounded-[6px] text-[#33353C] text-[14px] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
             />
@@ -210,7 +210,7 @@ const RegisterServiceProvider = () => {
             <input
               type="number"
               name="yearsOfExperience"
-              placeholder="4 Years"
+              placeholder="e.g 4 Years"
               max={50}
               maxLength={2}
               required

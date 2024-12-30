@@ -8,6 +8,7 @@ const {
   updateServiceProviderContact,
   updateServiceProviderGender,
   updateServiceProviderProfileImage,
+  fetchAllServiceProviders
 } = require("../controllers/serviceProviderController");
 const serviceProviderRouter = express.Router();
 const upload = require("../middlewares/multer");
@@ -42,6 +43,10 @@ serviceProviderRouter.patch(
   "/updateProfile/:userId/profileImg",
   upload.single("profileImg"),
   updateServiceProviderProfileImage
+);
+serviceProviderRouter.get(
+  '/',
+  fetchAllServiceProviders
 );
 
 module.exports = serviceProviderRouter;
