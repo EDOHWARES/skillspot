@@ -24,6 +24,7 @@ const RegisterServiceProvider = () => {
     setSelectedLGA(""); // Reset LGA when the state changes
   };
 
+  // Handle LGA change
   const handleLGAChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLGA(e.target.value);
   };

@@ -12,6 +12,7 @@ import digiter from "../../assets/icons/content-strategy.png";
 import carpenter from "../../assets/icons/carpenter.png";
 import houseAgent from "../../assets/icons/house-agent.png";
 import more from "../../assets/icons/more.png";
+import { useAppContext } from "../../Context/StoreContext";
 
 // prop types for service card component
 interface ServicesCardProps {
@@ -42,6 +43,11 @@ interface ProviderType {
     state: string;
   };
   servicesAndSkills: string[];
+}
+
+
+interface ServicesPropType {
+  searchTerm: string;
 }
 
 const ServicesCard: React.FC<ServicesCardProps> = ({ icon, title }) => {
@@ -93,33 +99,33 @@ const Service: React.FC<ServicePropTypes> = ({
   );
 };
 
-const Services = () => {
+
+const Services: React.FC<ServicesPropType> = ({searchTerm}) => {
   const API = import.meta.env.VITE_API_URL;
-  const [serviceProviders, setServiceProviders] = useState([]);
-  const [loadingPage, setLoadingPage] = useState(true);
+  const { services, loadingServices } = useAppContext();
+  const [exampleCards, setExampleCards] = useState(false);
 
-  // Fetch all services on page load
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await fetch(`${API}/api/serviceProvider/`);
-        const data = await response.json();
-        if (data.success) {
-          setServiceProviders(data.data);
-        } else {
-          console.error("Failed to fetch service providers");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      } finally {
-        setLoadingPage(false);
-      }
-    };
+  // Filtered services
+  const filteredServices = searchTerm
+    ? services.filter((service) => {
+        return (
+          service.location.state
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          service.location.lga
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          service.servicesAndSkills.some((skill) =>
+            skill.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        );
+      })
+    : services;
 
-    fetchServices();
-  }, []);
+    console.log(searchTerm)
+    console.log(filteredServices)
 
-  if (loadingPage) {
+  if (loadingServices) {
     return (
       <div className="z-50 w-screen h-screen flex items-center justify-center">
         <FadeLoader color="#276100" loading={true} />
@@ -128,9 +134,9 @@ const Services = () => {
   }
 
   return (
-    <div className="flex flex-col space-y-4 mb-[10rem] mt-[16rem]">
+    <div className="flex flex-col space-y-4 mb-[10rem] mt-[18rem]">
       <h1 className="text-[22px] font-semibold text-black">Services</h1>
-      <div className="services grid grid-cols-3 gap-5">
+      {!searchTerm && <div className="services grid grid-cols-3 gap-5">
         <ServicesCard icon={cleaner} title={"Cleaning"} />
 
         <ServicesCard icon={electrician} title={"Repairing"} />
@@ -148,9 +154,9 @@ const Services = () => {
         <ServicesCard icon={digiter} title={"Digital"} />
 
         <ServicesCard icon={more} title={"More"} />
-      </div>
+      </div>}
       <div className="flex flex-col space-y-5">
-        {serviceProviders.map((provider: ProviderType) => (
+        {filteredServices.map((provider: ProviderType) => (
           <Service
             key={provider._id}
             name={provider.name}
