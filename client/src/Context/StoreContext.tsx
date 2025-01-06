@@ -35,6 +35,8 @@ interface AppContextType {
   showMenu: boolean;
   showLogoutModule: boolean;
   loadingServices: boolean;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   serviceProviderProfileInfo: ServiceProviderProfileType | null;
   loadingServiceProviderProfileInfo: boolean;
   setServices: React.Dispatch<React.SetStateAction<ProviderType[]>>;
@@ -56,6 +58,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const API = import.meta.env.VITE_API_URL;
   const [services, setServices] = useState<ProviderType[]>([]);
   const [loadingServices, setLoadingServices] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('')
   const [showMenu, setShowMenu] = useState(false);
   const [showLogoutModule, setShowLogoutModule] = useState(false);
   const [
@@ -72,7 +75,9 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         const response = await fetch(`${API}/api/serviceProvider/`);
         const data = await response.json();
         if (data.success) {
-          setServices(data.data);
+          // shuffle the data before setting to state
+          const shuffledServices = data.data.sort(() => Math.random() - 0.5);
+          setServices(shuffledServices);
         } else {
           console.error("Failed to fetch service providers");
         }
@@ -101,6 +106,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     setServices,
     loadingServices,
     setLoadingServices,
+    searchTerm, 
+    setSearchTerm,
     showMenu,
     setShowMenu,
     serviceProviderProfileInfo,

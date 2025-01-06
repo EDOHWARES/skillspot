@@ -13,7 +13,6 @@ import searchIcon from "../../assets/icons/search.png";
 import { FaFilter } from "react-icons/fa6";
 import { CiFilter } from "react-icons/ci";
 import { useState } from "react";
-import Services from "../Services/Services";
 
 const Header = () => {
   const location: any = useLocation();
@@ -21,8 +20,7 @@ const Header = () => {
   const [filtering, setFiltering] = useState(true);
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedLGA, setSelectedLGA] = useState<string>("");
-
-  const [searchTerm, setSearchTerm] = useState("");
+  const {setSearchTerm } = useAppContext();
 
   // Handle search
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,11 +31,13 @@ const Header = () => {
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedState(e.target.value);
     setSelectedLGA(""); // Reset LGA when the state changes
+    setSearchTerm(e.target.value);
   };
 
   // Handle LGA change
   const handleLGAChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLGA(e.target.value);
+    setSearchTerm(e.target.value);
   };
 
   return (
@@ -190,9 +190,6 @@ const Header = () => {
               )}
             </div>
           )}
-        </div>
-        <div className="hidden">
-          <Services searchTerm={searchTerm} />
         </div>
       </header>
     </>

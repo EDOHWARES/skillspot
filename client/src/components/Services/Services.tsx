@@ -46,10 +46,6 @@ interface ProviderType {
 }
 
 
-interface ServicesPropType {
-  searchTerm: string;
-}
-
 const ServicesCard: React.FC<ServicesCardProps> = ({ icon, title }) => {
   return (
     <div className="w-full h-[102px] flex items-center justify-center flex-col gap-[1rem] shadow-md bg-white rounded-[9.8px] hover:scale-105 duration-500">
@@ -100,10 +96,9 @@ const Service: React.FC<ServicePropTypes> = ({
 };
 
 
-const Services: React.FC<ServicesPropType> = ({searchTerm}) => {
+const Services = () => {
   const API = import.meta.env.VITE_API_URL;
-  const { services, loadingServices } = useAppContext();
-  const [exampleCards, setExampleCards] = useState(false);
+  const { services, loadingServices, searchTerm } = useAppContext();
 
   // Filtered services
   const filteredServices = searchTerm
@@ -121,9 +116,6 @@ const Services: React.FC<ServicesPropType> = ({searchTerm}) => {
         );
       })
     : services;
-
-    console.log(searchTerm)
-    console.log(filteredServices)
 
   if (loadingServices) {
     return (
