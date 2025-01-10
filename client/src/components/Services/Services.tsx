@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import image_placeholder from "../../assets/icons/avatarprofile.png";
 import { FadeLoader } from "react-spinners";
+import notfound_icon from '../../assets/icons/notfound_icon.png';
 
 import cleaner from "../../assets/icons/cleaning.png";
 import electrician from "../../assets/icons/electrician.png";
@@ -44,7 +45,6 @@ interface ProviderType {
   };
   servicesAndSkills: string[];
 }
-
 
 const ServicesCard: React.FC<ServicesCardProps> = ({ icon, title }) => {
   return (
@@ -95,7 +95,6 @@ const Service: React.FC<ServicePropTypes> = ({
   );
 };
 
-
 const Services = () => {
   const API = import.meta.env.VITE_API_URL;
   const { services, loadingServices, searchTerm } = useAppContext();
@@ -128,39 +127,50 @@ const Services = () => {
   return (
     <div className="flex flex-col space-y-4 mb-[10rem] mt-[18rem]">
       <h1 className="text-[22px] font-semibold text-black">Services</h1>
-      {!searchTerm && <div className="services grid grid-cols-3 gap-5">
-        <ServicesCard icon={cleaner} title={"Cleaning"} />
+      {!searchTerm && (
+        <div className="services grid grid-cols-3 gap-5">
+          <ServicesCard icon={cleaner} title={"Cleaning"} />
 
-        <ServicesCard icon={electrician} title={"Repairing"} />
+          <ServicesCard icon={electrician} title={"Repairing"} />
 
-        <ServicesCard icon={mechanic} title={"Mechanics"} />
+          <ServicesCard icon={mechanic} title={"Mechanics"} />
 
-        <ServicesCard icon={plumber} title={"Plumbing"} />
+          <ServicesCard icon={plumber} title={"Plumbing"} />
 
-        <ServicesCard icon={sewing} title={"Sewing"} />
+          <ServicesCard icon={sewing} title={"Sewing"} />
 
-        <ServicesCard icon={carpenter} title={"Carpentry"} />
+          <ServicesCard icon={carpenter} title={"Carpentry"} />
 
-        <ServicesCard icon={houseAgent} title={"House Agent"} />
+          <ServicesCard icon={houseAgent} title={"House Agent"} />
 
-        <ServicesCard icon={digiter} title={"Digital"} />
+          <ServicesCard icon={digiter} title={"Digital"} />
 
-        <ServicesCard icon={more} title={"More"} />
-      </div>}
+          <ServicesCard icon={more} title={"More"} />
+        </div>
+      )}
       <div className="flex flex-col space-y-5">
-        {filteredServices.map((provider: ProviderType) => (
-          <Service
-            key={provider._id}
-            name={provider.name}
-            profileImage={
-              provider.profileImage == "https://via.placeholder.com/150"
-                ? image_placeholder
-                : `${API}/${provider.profileImage}`
-            }
-            location={provider.location}
-            services={provider.servicesAndSkills}
-          />
-        ))}
+        {filteredServices?.length > 0 ? (
+          filteredServices.map((provider: ProviderType) => (
+            <Service
+              key={provider._id}
+              name={provider.name}
+              profileImage={
+                provider.profileImage === "https://via.placeholder.com/150"
+                  ? image_placeholder
+                  : `${API}/${provider.profileImage}`
+              }
+              location={provider.location}
+              services={provider.servicesAndSkills}
+            />
+          ))
+        ) : (
+          <div className="flex flex-col justify-center items-center text-center mt-5">
+            <img src={notfound_icon} alt="not found" width={100} />
+            <p className="text-gray-400">
+              No service provider found in the selected location...
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ const Header = () => {
   const [filtering, setFiltering] = useState(true);
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedLGA, setSelectedLGA] = useState<string>("");
-  const {setSearchTerm } = useAppContext();
+  const { setSearchTerm } = useAppContext();
 
   // Handle search
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -152,14 +152,14 @@ const Header = () => {
                 </button>
               </form>
               {filtering && (
-                <div className="mt-[1rem] w-full px-6 text-sm pt-8 md:pt-10 border-b absolute left-0 bg-[#F3F5FD] py-2 text-gray-500 flex items-center justify-start space-x-4">
+                <div className="mt-[1rem] w-full px-6 text-sm pt-8 md:pt-10 border-b absolute left-0 bg-[#F3F5FD] py-2 text-gray-500 flex items-center justify-between sm:justify-start space-x-4">
                   <span className="flex items-center space-x-2">
                     <p>State:</p>
                     <select
                       id="states"
                       value={selectedState}
                       onChange={handleStateChange}
-                      className="bg-transparent px-2 py-1 md:px-4 md:py-2 border rounded-[6px] text-[#33353C] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
+                      className="bg-transparent w-[6rem] sm:w-auto px-2 py-1 md:px-4 md:py-2 border rounded-[6px] text-[#33353C] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
                     >
                       <option value="">-- Select State --</option>
                       {Object.keys(nigeriaStatesLGA).map((state) => (
@@ -175,7 +175,7 @@ const Header = () => {
                       id="lgas"
                       value={selectedLGA}
                       onChange={handleLGAChange}
-                      className="bg-transparent px-2 py-1 md:px-4 md:py-2 border rounded-[6px] text-[#33353C] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
+                      className="bg-transparent w-[6rem] sm:w-auto px-2 py-1 md:px-4 md:py-2 border rounded-[6px] text-[#33353C] border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#CCFD04]"
                     >
                       <option value="">-- Select LGA --</option>
                       {selectedState &&
