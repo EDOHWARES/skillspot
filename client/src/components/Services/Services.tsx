@@ -87,8 +87,8 @@ const Service: React.FC<ServicePropTypes> = ({
         ))}
       </ul>
       <div className="mt-3">
-        <button className="bg-[#CCFD04] bg-opacity-50 text-gray-800 font-semibold px-4 py-1 rounded-[3px]">
-          Reach out
+        <button onClick={} className="bg-[#CCFD04] bg-opacity-50 text-gray-800 font-semibold px-4 py-1 rounded-[3px]">
+          Contact
         </button>
       </div>
     </div>
