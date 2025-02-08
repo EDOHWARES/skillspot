@@ -87,7 +87,7 @@ const Service: React.FC<ServicePropTypes> = ({
         ))}
       </ul>
       <div className="mt-3">
-        <button onClick={} className="bg-[#CCFD04] bg-opacity-50 text-gray-800 font-semibold px-4 py-1 rounded-[3px]">
+        <button className="bg-[#CCFD04] bg-opacity-50 text-gray-800 font-semibold px-4 py-1 rounded-[3px]">
           Contact
         </button>
       </div>
@@ -148,7 +148,7 @@ const Services = () => {
           <ServicesCard icon={more} title={"More"} />
         </div>
       )}
-      <div className="flex flex-col space-y-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {filteredServices?.length > 0 ? (
           filteredServices.map((provider: ProviderType) => (
             <Service

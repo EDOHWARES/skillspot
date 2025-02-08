@@ -34,7 +34,8 @@ const Menu = () => {
           pauseOnHover: true,
           draggable: true,
         });
-        return;
+        setShowMenu(false);
+        navigate('/loginServiceProvider')
       }
     };
   return (

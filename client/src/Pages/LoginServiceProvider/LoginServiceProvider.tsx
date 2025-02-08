@@ -49,7 +49,7 @@ const LoginServiceProvider = () => {
       redirectToPreviousPage();
     } catch (error: unknown) {
       setLoading(false);
-      console.log(error)
+      console.log(error);
       // Type assertion or type narrowing to AxiosError
       if (error instanceof AxiosError) {
         if (error.response && error.response.data.message) {
@@ -76,15 +76,17 @@ const LoginServiceProvider = () => {
             Login
           </h1>
         </div>
-        <small className="float-end text-gray-600 pr-4">
-          Don't have an account?{" "}
-          <Link
-            to={"/registerServiceProvider"}
-            className="text-[#282828] font-bold"
-          >
-            Register
-          </Link>
-        </small>
+        <div className="w-full flex items-center justify-center">
+          <small className=" text-gray-600 pr-4">
+            Don't have an account?{" "}
+            <Link
+              to={"/registerServiceProvider"}
+              className="text-blue-950 font-bold"
+            >
+              Register
+            </Link>
+          </small>
+        </div>
       </div>
 
       <form
