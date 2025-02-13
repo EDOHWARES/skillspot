@@ -44,7 +44,7 @@ const LoginServiceProvider = () => {
       const { message, userId } = response.data;
 
       // Store userId and navigate to the home page
-      localStorage.setItem("userId", userId);
+      localStorage.setItem("skillspot_userId", userId);
       toast.success(message);
       redirectToPreviousPage();
     } catch (error: unknown) {
